@@ -22,9 +22,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
-        .dataSource(dataSource)
-        .usersByUsernameQuery("select username,password,enabled from users where username=?")
-        .authoritiesByUsernameQuery("select username,authority from authorities where username=?");
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username,password,enabled from users where username=?")
+                .authoritiesByUsernameQuery("select username,authority from authorities where username=?");
         /*.withDefaultSchema()
         .withUser(User.withUsername("user").password("pass").roles("USER"))
                 .withUser(User.withUsername("admin").password("pass").roles("ADMIN"));*/
@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin").hasRole( "ADMIN")
+                .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/", "static/css", "static/js").permitAll()
                 .and().formLogin();

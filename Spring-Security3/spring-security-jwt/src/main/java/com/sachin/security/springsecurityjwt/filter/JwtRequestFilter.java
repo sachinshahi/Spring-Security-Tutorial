@@ -31,14 +31,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         final String authorizationHeaer = httpServletRequest.getHeader("Authorization");
         String username = null;
         String jwt = null;
-        if(authorizationHeaer != null && authorizationHeaer.startsWith("Bearer ")){
-            jwt  = authorizationHeaer.substring(7);
+        if (authorizationHeaer != null && authorizationHeaer.startsWith("Bearer ")) {
+            jwt = authorizationHeaer.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if(jwtUtil.validateToken(jwt, userDetails)) {
+            if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

@@ -20,15 +20,15 @@ import java.util.Optional;
 
 @Component
 public class OtpAuthenticationProvider implements AuthenticationProvider {
-   @Autowired
-   private OtpRepository otpRepository;
+    @Autowired
+    private OtpRepository otpRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String otp = (String) authentication.getCredentials();
         Optional<Otp> o = otpRepository.findByUsername(username);
-        if(o.isPresent()) {
+        if (o.isPresent()) {
             List<GrantedAuthority> authority = new ArrayList<>();
             authority.add(new GrantedAuthority() {
                 @Override

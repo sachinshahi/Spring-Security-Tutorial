@@ -15,13 +15,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
-public class ProjectConfig  extends WebSecurityConfigurerAdapter {
+public class ProjectConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UsernamePasswordAuthProvider usernamePasswordAuthProvider;
 
     @Autowired
     private OtpAuthenticationProvider otpAuthenticationProvider;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
@@ -32,13 +33,13 @@ public class ProjectConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilterAt(usernamePasswordAuthFilter,BasicAuthenticationFilter.class);
+        http.addFilterAt(usernamePasswordAuthFilter, BasicAuthenticationFilter.class);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.authenticationProvider(usernamePasswordAuthProvider)
-       .authenticationProvider(otpAuthenticationProvider);
+        auth.authenticationProvider(usernamePasswordAuthProvider)
+                .authenticationProvider(otpAuthenticationProvider);
     }
 
     @Bean

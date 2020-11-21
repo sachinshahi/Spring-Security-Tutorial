@@ -24,10 +24,10 @@ public class UsernamePasswordAuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-       String username = authentication.getName();
-       String password = (String) authentication.getCredentials();
+        String username = authentication.getName();
+        String password = (String) authentication.getCredentials();
         UserDetails user = userDetailService.loadUserByUsername(username);
-        if(passwordEncoder.matches(password, user.getPassword())) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
         }
         throw new BadCredentialsException(":(");

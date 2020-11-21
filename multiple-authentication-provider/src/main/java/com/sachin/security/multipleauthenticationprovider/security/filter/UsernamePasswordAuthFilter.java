@@ -26,6 +26,7 @@ public class UsernamePasswordAuthFilter extends OncePerRequestFilter {
 
     @Autowired
     private OtpRepository otpRepository;
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         return !request.getServletPath().equals("/login");
@@ -38,7 +39,7 @@ public class UsernamePasswordAuthFilter extends OncePerRequestFilter {
         String username = httpServletRequest.getHeader("username");
         String password = httpServletRequest.getHeader("password");
         String otp = httpServletRequest.getHeader("otp");
-        if(otp == null){
+        if (otp == null) {
             //step 1
             UsernamePasswordAuthentication usernamePasswordAuthentication = new UsernamePasswordAuthentication(username, password);
             authenticationManager.authenticate(usernamePasswordAuthentication);
@@ -51,8 +52,8 @@ public class UsernamePasswordAuthFilter extends OncePerRequestFilter {
             httpServletResponse.setHeader("otp", code);
 
             //SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthentication);
-        }else {
-           // step 2
+        } else {
+            // step 2
             OtpAuthentication otpAuthentication = new OtpAuthentication(username, otp);
             authenticationManager.authenticate(otpAuthentication);
             //SecurityContextHolder.getContext().setAuthentication(otpAuthentication);
